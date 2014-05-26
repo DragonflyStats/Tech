@@ -1,0 +1,3 @@
+Sqoop is a command-line interface application for transferring data between relational databases and Hadoop.[1] It supports incremental loads of a single table or a free form SQL query as well as saved jobs which can be run multiple times to import updates made to a database since the last import. Imports can also be used to populate tables in Hive or HBase.[2] Exports can be used to put data from Hadoop into a relational database. Sqoop became a top-level Apache project in March 2012.[3]
+
+Microsoft uses a Sqoop-based connector to help transfer data from Microsoft SQL Server databases to Hadoop.[4] Couchbase, Inc. also provides a Couchbase Server-Hadoop connector by means of Sqoop.[5]
