@@ -21,3 +21,6 @@ Other features of Hive include:
 - Operating on compressed data stored into Hadoop ecosystem, algorithm including gzip, bzip2, snappy, etc.
 - Built-in user defined functions (UDFs) to manipulate dates, strings, and other data-mining tools. Hive supports extending the UDF set to handle use-cases not supported by built-in functions.
 - SQL-like queries (Hive QL), which are implicitly converted into map-reduce jobs.
+
+### References
+- https://cwiki.apache.org/confluence/display/Hive/LanguageManual
