@@ -1,6 +1,12 @@
 Apache Hadoop 
 ==========================
 (www.Stats-Lab.com)
+
+Apache Hadoop is a framework for running applications on large cluster built of commodity hardware. The Hadoop framework transparently provides applications both reliability and data motion. Hadoop implements a computational paradigm named Map/Reduce, where the application is divided into many small fragments of work, each of which may be executed or re-executed on any node in the cluster. In addition, it provides a distributed file system (HDFS) that stores data on the compute nodes, providing very high aggregate bandwidth across the cluster. Both MapReduce and the Hadoop Distributed File System are designed so that node failures are automatically handled by the framework.
+
+<hr>
+
+
 - Apache Hadoop is an open source software framework this supports data-intensive distributed applications licensed under the Apache v2 license. 
 - Hadoop enables applications to work with thousands of computational independent computers and petabytes of data. 
 - Hadoop was derived from Google's MapReduce and Google File System (GFS) papers. 
