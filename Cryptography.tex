@@ -1,0 +1,103 @@
+
+Cryptography Class
+
+
+Introduction
+
+Authentication Protocols
+
+Digital signatures
+
+Cryptographic protocol
+
+Symmetric-key algorithms
+
+Zero-knowledge proof
+
+
+
+Introduction
+
+
+Cryptography is an indispensable tool for protecting information in computer systems. This course explains the inner workings of cryptographic primitives and how to correctly use them. 
+
+
+Students will learn how to reason about the security of cryptographic constructions and how to apply this knowledge to real-world applications. 
+
+
+The course begins with a detailed discussion of how two parties who have a shared secret key can communicate securely when a powerful adversary eavesdrops and tampers with traffic. We will examine many deployed protocols and analyze mistakes in existing systems. 
+
+
+The second half of the course discusses public-key techniques that let two or more parties generate a shared secret key. We will cover the relevant number theory and discuss public-key encryption, digital signatures, and authentication protocols. 
+
+
+Towards the end of the course we will cover more advanced topics such as zero-knowledge, distributed protocols such as secure auctions, and a number of privacy mechanisms. Throughout the course students will be exposed to many exciting open problems in the field.
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+Authentication Protocols
+
+An authentication protocol is a type of cryptographic protocol with the purpose of authenticating entities wishing to communicate securely.
+
+Digital signatures
+
+A digital signature or digital signature scheme is a mathematical scheme for demonstrating the authenticity of a digital message or document. A valid digital signature gives a recipient reason to believe that the message was created by a known sender, and that it was not altered in transit. Digital signatures are commonly used for software distribution, financial transactions, and in other cases where it is important to detect forgery or tampering.
+
+
+
+--------------------------------------------------------------------------------
+
+
+Cryptographic protocol
+
+A security protocol (cryptographic protocol or encryption protocol) is an abstract or concrete protocol that performs a security-related function and applies cryptographic methods.
+
+A protocol describes how the algorithms should be used. A sufficiently detailed protocol includes details about data structures and representations, at which point it can be used to implement multiple, interoperable versions of a program.
+
+Cryptographic protocols are widely used for secure application-level data transport. A cryptographic protocol usually incorporates at least some of these aspects:
+1.
+Key agreement or establishment
+
+2.
+Entity authentication
+
+3.
+Symmetric encryption and message authentication material construction
+
+4.
+Secured application-level data transport
+
+5.
+Non-repudiation methods
+
+
+
+Symmetric-key algorithms
+
+Symmetric-key algorithms are a class of algorithms for cryptography that use trivially related, often identical, cryptographic keys for both encryption of plaintext and decryption of ciphertext. The encryption key is trivially related to the decryption key, in that they may be identical or there is a simple transformation to go between the two keys. The keys, in practice, represent a shared secret between two or more parties that can be used to maintain a private information link. Other terms for symmetric-key encryption are secret-key, single-key, shared-key, one-key, and private-key encryption. Use of the last and first terms can create ambiguity with similar terminology used in public-key cryptography. Symmetric-key cryptography is to be contrasted with asymmetric-key cryptography.
+
+
+
+--------------------------------------------------------------------------------
+
+
+Zero-knowledge proof
+
+A zero-knowledge proof or zero-knowledge protocol is an interactive method for one party to prove to another that a (usually mathematical) statement is true, without revealing anything other than the veracity of the statement.
+
+
+
+A zero-knowledge proof must satisfy three properties:
+
+1.Completeness: if the statement is true, the honest verifier (that is, one following the protocol properly) will be convinced of this fact by an honest prover.
+
+2.Soundness: if the statement is false, no cheating prover can convince the honest verifier that it is true, except with some small probability.
+
+3.Zero-knowledge: if the statement is true, no cheating verifier learns anything other than this fact. This is formalized by showing that every cheating verifier has some simulator that, given only the statement to be proven (and no access to the prover), can produce a transcript that "looks like" an interaction between the honest prover and the cheating verifier.
+
+
+
