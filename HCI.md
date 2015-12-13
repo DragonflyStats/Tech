@@ -1,3 +1,28 @@
+Human Computer Interface
+Goals
+
+A basic goal of HCI is to improve the interactions between users and computers by making computers more usable and receptive to the user's needs. Specifically, HCI is concerned with:
+methodologies and processes for designing interfaces (i.e., given a task and a class of users, design the best possible interface within given constraints, optimizing for a desired property such as learnability or efficiency of use)
+methods for implementing interfaces (e.g. software toolkits and libraries; efficient algorithms)
+techniques for evaluating and comparing interfaces
+developing new interfaces and interaction techniques
+developing descriptive and predictive models and theories of interaction
+
+A long term goal of HCI is to design systems that minimize the barrier between the human's cognitive model of what they want to accomplish and the computer's understanding of the user's task.
+
+Professional practitioners in HCI are usually designers concerned with the practical application of design methodologies to real-world problems. Their work often revolves around designing graphical user interfaces and web interfaces.
+
+
+Researchers in HCI are interested in developing new design methodologies, experimenting with new hardware devices, prototyping new software systems, exploring new paradigms for interaction, and developing models and theories of interaction.
+
+SOCIAL, ETHICAL AND LEGAL ISSUES
+Understand and apply:
+Social and ethical impact of technologies for controlling web access.
+Social and commercial consequences of media convergence.
+Social and economic effects of e-commerce.
+Ethical and economic implications of accessibility policies and legislation.
+Disability Discrimination Act 1995 (DDA) and the related Special Educational Needs and Disability Act 2001 (SENDA)
+Web Accessibility Initiative (WAI) from the World Wide Web Consortium (W3C)
 
 
 Human–computer interaction (HCI) 
