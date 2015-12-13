@@ -4,10 +4,11 @@ Excel VBA: Functions and Procedures
 Calling a Sub Procedure
 Procedures and Access Levels
 
-
+````
 Sub ProcedureName()
 
 End Sub
+````
 The name of a procedure should follow the same rules we learned to name the variables. In addition:
 
 If the procedure performs an action that can be represented with a verb, you can use that verb to name it. Here are examples: show, display
