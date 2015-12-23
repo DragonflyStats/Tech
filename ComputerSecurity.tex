@@ -1,0 +1,54 @@
+Computer Security
+2008 Paper
+1) Access Control and Key Escrow
+2) The RSA algorithm
+3) Needham Schroeder
+4) Hash Functions and Password Security Systems
+    SHA - 1 Protocol
+5) Digital Signature Schemes
+
+Needham Schroeder Protocols
+ 
+The term Needham–Schroeder protocol can refer to one of two communication protocols intended for use over an insecure network, both proposed by Roger Needham and Michael Schroeder.
+ 
+These are:
+The Needham–Schroeder Symmetric Key Protocol is based on a symmetric encryption algorithm. It forms the basis for the Kerberos protocol. This protocol aims to establish a session key between two parties on a network, typically to protect further communication.
+The Needham–Schroeder Public-Key Protocol, based on public-key cryptography. This protocol is intended to provide mutual authentication between two parties communicating on a network, but in its proposed form is insecure.
+
+ 
+The Secure Hash Algorithm
+ 
+The Secure Hash Algorithm is one of a number of cryptographic hash functions published by the National Institute of Standards and Technology as a U.S. Federal Information Processing Standard.
+
+SHA-1 Protocol
+ 
+Chinese Remainder Theorem
+ 
+A typical problem is to find integers x that simultaneously solve 
+ 
+ 
+ 
+It's important in our applications that the two moduli be relatively prime; otherwise, we would have to check that the two congruences are consistent. The Chinese Remainder Theorem has a very simple answer:
+ 
+Chinese Remainder Theorem: For relatively prime moduli m and n, the congruences
+ 
+
+
+
+have a unique solution x modulo mn.
+ 
+ 
+Our example problem would have a unique solution modulo 1627 =432.
+It's better than this; there is a relatively simple algorithm to find the solution. Since all number theory algorithms ultimately come down to Euclid's algorithm, you can be sure it happens here as well.
+First let's consider an even simpler example. Suppose we want all numbers x that satisfy
+ 
+
+ 
+The numbers that satisfy the first congruence are in the sequence 
+
+ 
+
+
+Just scan this sequence for a term that also leaves remainder 3 after division by 5. The answer is x=8.
+ 
+Euclid's algorithm can be used to solve several problems: finding the greatest common divisor d of two numbers m and n, and finding two numbers x and y such that mx+ny=d, and solving congruences axbm  for x. We will now see how it also helps to solve Chinese Remainder problems.
