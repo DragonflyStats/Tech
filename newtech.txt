@@ -1,0 +1,38 @@
+ 
+ 
+ 
+
+
+DAP
+Shell
+Simfit
+StatisticsLab
+
+
+DAP
+ 
+Dap is a statistics and graphics program, that performs data management, analysis, and graphical visualization tasks which are commonly required in statistical consulting practice.
+ 
+Dap was written to be a free replacement for SAS, but users are assumed to have a basic familiarity with the C programming language in order to permit greater flexibility. Unlike R it has been designed to be used on large data sets
+ 
+Shell
+
+
+http://www.lesbell.com.au/Home.nsf/b8ec57204f60dfcb4a2568c60014ed0f/1ec473b3c7eb276cca256e1900258747?OpenDocument
+
+
+
+Simfit
+
+
+What is Simfit?
+ 
+
+
+
+StatisticsLab
+
+
+German statistics Lab
+ 
+R
