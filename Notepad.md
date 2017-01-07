@@ -1,29 +1,10 @@
 
 Advanced Data Science Notepad
 
- 
 
 
-Artificial Neural Networks
 
-Inductive Logic Programming (ILP)
-
-Machine Learning
-
-Naive Bayesian Classifier
-
-Perceptrons
-
-Quadratic Loss Function
-
-Supervised learning
-
-Training data sets
-
-Winnow Algorithm
-
-
-Artificial Neural Networks 
+## Artificial Neural Networks 
 
 Artificial Neural Networks (ANNs) is an abstract simulation of a real nervous system that contains a collection of neuron units communicating with each other via axon connections. Such a model bears a strong reasemblance to axons and dendrites in a nervous system.
 
@@ -43,7 +24,7 @@ The first is the biological type. It encompasses networks mimicking biological n
 
 The other type is application-driven. It depens less on the faithfulness to neurobiology. For this models the architectures are largely dictated by the application needs. Many such neural networks are represented by the so called connectionist models.
 
-Inductive Logic Programming (ILP)
+## Inductive Logic Programming (ILP)
 
 Inductive Logic Programming (ILP) is a research area formed at the intersection of Machine Learning and Logic Programming. ILP systems develop predicate descriptions from examples and background knowledge. The examples, background knowledge and final descriptions are all described as logic programs. A unifying theory of Inductive Logic Programming is being built up around lattice-based concepts such as refinement, least general generalisation, inverse resolution and most specific corrections. In addition to a well established tradition of learning-in-the-limit results, some results within Valiant's PAC-learning framework have been demonstrated for ILP systems. U-learnabilty, a new model of learnability, has also been developed.
 
@@ -59,9 +40,9 @@ The removal of redundancy, and use of search procedures also play an important r
 
 Computational Learning Theory (COLT) is used to analyse learning results for ILP systems. An extension to Valiant's PAC learning framework, U-learnability, has been suggested.
 
-Machine Learning
+## Machine Learning
 
-Naive Bayesian Classifier
+## Naive Bayesian Classifier
 
 The naive Bayesian classifier is an algorithm for supervised learning that stores a single probabilistic summary for each class and that assumes conditional independence of the attributes given the class. Despite these simplifying assumptions, in many domains naive Bayes gives results as good or better than much more sophisticated approaches to induction. 
 
@@ -69,26 +50,19 @@ Perceptrons
 
 
 
-Supervised learning
+## Supervised learning
 
 
 Supervised learning is the machine learning task of inferring a function from supervised training data. The training data consist of a set of training examples. In supervised learning, each example is a pair consisting of an input object (typically a vector) and a desired output value (also called the supervisory signal). A supervised learning algorithm analyzes the training data and produces an inferred function, which is called a classifier (if the output is discrete, see classification) or a regression function (if the output is continuous, see regression). The inferred function should predict the correct output value for any valid input object. This requires the learning algorithm to generalize from the training data to unseen situations 
 
 in a "reasonable" way (see inductive bias). 
 
-Training data sets
+## Training data sets
 
-A training set is a set of data used in various areas of information science to discover potentially predictive relationships. Training sets are used in artificial intelligence, machine learning, genetic programming, intelligent systems, and statistics. In all these fields, a training set has much the same 
-
-role and is often used in conjunction with a test set.
+A training set is a set of data used in various areas of information science to discover potentially predictive relationships. Training sets are used in artificial intelligence, machine learning, genetic programming, intelligent systems, and statistics. In all these fields, a training set has much the same role and is often used in conjunction with a test set.
 
 
  
-
-Winnow Algorithm
-
-The Winnow algorithm
-
 
 
  
