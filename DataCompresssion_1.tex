@@ -1,0 +1,38 @@
+What is Data Compression
+
+
+Computer files can take up a large amount of space on a hard drive as well as a lot of bandwidth to transmit. To save space, especially with files that are not often accessed, and bandwidth for files being transmitted, storage methods have been developed to save the data in a smaller package by compressing it in some way. In each case, a compression algorithm — a method for reducing the data size — is used. There are several popular categories and types of compression algorithm, each of which works in a different manner, and some of which have results that differ in important ways. Using various compression algorithms, it is generally possible to reduce a text file to less than half its original size; for graphics files, the results vary widely. The file that results from compression may either be a different format or an archive file, which is often used for storage, transmission, and distribution.
+
+
+One way to categorize compression algorithms is by whether they use dictionary or statistical methods to compress data. The dictionary method focuses on repeatable phrases and is used in GIF images and in JAR and ZIP archives. The statistical method relies on frequency of use to make a conversion, which is done in two passes. An example is Modified Huffman (mh), used in some fax machines.
+
+
+A second way to categorize compression algorithms, and the one that non-professional programmers most often encounter is by whether they are lossless or lossy. A lossless data compression algorithm is one the compresses the data in such a way that when it is decompressed, it is exactly identical to the original file. One example of a lossless data compression algorithm is lzw (Lempel-Ziv-Welch algorithm). Developed in 1977 by Lempel and Ziv and improved in 1984 by Welch, it is used in files such as GIF, TIF, and PDF, as well as certain modems.
+
+
+A lossy data compression algorithm has the capacity for reducing data to a smaller size than lossless compression, but at the cost of some of the original data. In other words, the restoration following lossy data compression does not give an identical copy of the original file. The compression algorithm is, however, designed to limit the losses so that they are not apparent to the ear or eye. Lossy compression is used in file formats such as AAC, JPEG, MPEG, and MP3.
+Lossless compression
+
+Lossless compression is a compression technique that does not lose any data in the compression process.
+
+
+Lossless compression "packs data" into a smaller file size by using a kind of internal shorthand to signify redundant data. If an original file is 1.5MB (megabytes), lossless compression can reduce it to about half that size, depending on the type of file being compressed. This makes lossless compression convenient for transferring files across the Internet, as smaller files transfer faster. Lossless compression is also handy for storing files as they take up less room.
+
+
+The zip convention, used in programs like WinZip, uses lossless compression. For this reason zip software is popular for compressing program and data files. That's because when these files are decompressed, all bytes must be present to ensure their integrity. If bytes are missing from a program, it won't run. If bytes are missing from a data file, it will be incomplete and garbled. GIF image files also use lossless compression.
+
+
+Lossless compression has advantages and disadvantages. The advantage is that the compressed file will decompress to an exact duplicate of the original file, mirroring its quality. The disadvantage is that the compression ratio is not all that high, precisely because no data is lost.
+
+
+To get a higher compression ratio -- to reduce a file significantly beyond 50% -- you must use lossy compression. Lossy compression will strip a file of some of its redundant data. Because of this data loss, only certain applications are fit for lossy compression, like graphics, audio, and video. Lossy compression necessarily reduces the quality of the file to arrive at the resulting highly compressed size, but depending on the need, the loss may acceptable and even unnoticeable in some cases.
+
+
+JPEG uses lossy compression, which is why converting a GIF file to JPEG will reduce it in size. It will also reduce the quality to some extent.
+
+
+Lossless and lossy compression have become part of our every day vocabulary largely due to the popularity of MP3 music files. A standard sound file in WAV format, converted to a MP3 file will lose much data as MP3 employs a lossy, high-compression algorithm that tosses much of the data out. This makes the resulting file much smaller so that several dozen MP3 files can fit, for example, on a single compact disk, verses a handful of WAV files. However the sound quality of the MP3 file will be slightly lower than the original WAV, noticeably so to some.
+
+
+As always, whether compressing video, graphics or audio, the ideal is to balance the high quality of lossless compression against the convenience of lossy compression. Choosing the right lossy convention is a matter of personal choice and good results depend heavily on the quality of the original file.
+
