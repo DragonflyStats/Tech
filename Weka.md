@@ -1,5 +1,0 @@
-Weka 3: Data Mining Software in Java
-
-Weka is a collection of machine learning algorithms for data mining tasks. The algorithms can either be applied directly to a dataset or called from your own Java code. Weka contains tools for data pre-processing, classification, regression, clustering, association rules, and visualization. It is also well-suited for developing new machine learning schemes.
-
-Weka is open source software issued under the GNU General Public License.
