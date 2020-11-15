@@ -1,0 +1,23 @@
+\section*{Prediction with Logistic Regression}
+In this example, we take a dataset of labels and feature vectors. We learn to predict the labels from feature vectors using the Logistic Regression algorithm.
+
+Python
+Scala
+Java
+\begin{verbatim}
+# Every record of this DataFrame contains the label and
+# features represented by a vector.
+df = sqlContext.createDataFrame(data, ["label", "features"])
+
+# Set parameters for the algorithm.
+# Here, we limit the number of iterations to 10.
+lr = LogisticRegression(maxIter=10)
+
+# Fit the model to the data.
+model = lr.fit(df)
+
+# Given a dataset, predict each point's label, and show the results.
+model.transform(df).show()
+\end{verbatim}
+
+\end{document}

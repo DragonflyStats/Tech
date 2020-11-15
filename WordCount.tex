@@ -1,0 +1,11 @@
+\section*{Word Count}
+In this example, we use a few transformations to build a dataset of (String, Int) pairs called counts and then save it to a file.
+
+Python
+Scala
+Java
+text_file = sc.textFile("hdfs://...")
+counts = text_file.flatMap(lambda line: line.split(" ")) \
+             .map(lambda word: (word, 1)) \
+             .reduceByKey(lambda a, b: a + b)
+counts.saveAsTextFile("hdfs://...")

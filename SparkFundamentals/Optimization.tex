@@ -1,0 +1,161 @@
+	\documentclass[a4paper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage{vmargin}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{subfigure}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.00.0.2570}
+%TCIDATA{<META NAME="SaveForMode"CONTENT="1">}
+%TCIDATA{LastRevised=Wednesday, February 23, 201113:24:34}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{Language=American English}
+
+\pagestyle{fancy}
+\setmarginsrb{20mm}{0mm}{20mm}{25mm}{12mm}{11mm}{0mm}{11mm}
+\lhead{Apache Spark} \rhead{Kevin O'Brien} \chead{The Spark Ecosystem} %\input{tcilatex}
+
+\begin{document}
+
+%%-- Lesson three: 
+\section*{Optimizing Transformations and Actions}
+%%-- This course was developed in collaboration with MetiStream and IBM Analytics.
+\subsection*{Advanced RDD Operations}
+We’ll start by going over some of the more advanced RDD operations available.
+Numeric RDDs have several statistical operations that can be computed such as standard deviation, sum,
+mean, max, min, etc. You can compute a specific operation or call stats() to return an object with access
+to all the values.
+mapPartitions is like regular map, except the function is at the partition level. Thus each set of values in
+a partition is mapped to zero or more values. One case when these operations are particularly useful is
+when your map function has a high overhead cost per record. For example, if you need to connect to a
+database, you could do it once per partition instead of for each individual record.
+mapPartitionsWithIndex simply adds the index of the partition as a parameter
+foreachPartition - run an action that iterates over each partition. You want to use this for batching
+operations such as submitting to a web service or pushing to external data sources. You’d want to do
+this instead of calling foreach which iterates over each individual record.
+There are a number of operations that can be used on extremely large data sets to get approximate
+values. For example, countApproxDistinct will approximate the number of distinct values to within the
+given standard deviation.
+\begin{itemize}
+\item Fold is a special case of reduce. You pass it an initial zero accumulator and a function. The function is a
+sequential or comparative operation between the RDD element and the accumulator, returning the final
+accumulator.
+\item Aggregate is similar to fold, but takes two functions. The first runs on each partition. The second
+combines the results from each partition accumulator.
+\item countByValue is just a convenience method that counts the number of occurrences of each value and
+collects them in a map. Internally it's mapping to a pair RDD and calling countByKey. 
+\end{itemize}
+We can see how it
+works by revisiting our word count example. The second and third lines are identical operations.
+\subsection*{Operations on Key/Value RDDs}
+Some operations can only be performed on Key-Value RDDs.
+Reduce by key runs a reduce over all values of a key, then combines the results for each key in each
+partition.
+Count by key is simply calling reduceByKey, but the difference is that it collects the results in a map
+which is sent back to the driver. As such you need to be careful with this action - it's mostly useful as a
+simple way to examine your data and not something you want to use in production.
+\begin{itemize}
+\item Aggregate and fold by key are analogous to their generic counterparts, except that they run per key. We
+will see an example shortly.
+groupByKey groups all values by key, from ALL partitions, into memory. \item This action should trigger
+warning bells any time you see it in a Spark application. Recall that one of the worst culprits of poor
+performance in Spark is shuffling. groupByKey shuffles everything. It can even cause out-of-memory
+errors with large datasets. Avoid using whenever possible.
+Lookup returns all values for the specified key.
+mapValues applies a map function to each value without changing their keys. When you use this instead
+of regular map, Spark knows that any previous partitioning is still valid, and so repartitioning isn’t
+necessary.
+\item Finally, repartition and sort within partitions does a repartition and sort by key all in one step, which is
+more efficient than calling sortByKey after a repartition.
+\end{itemize}
+\subsection*{Example: Average Per Key}
+
+\begin{itemize}
+\item In this example we will see how aggregate functions are used, and also why group by key should be
+avoided. Consider the following use case: we want to calculate the average value for each key in an RDD.
+\item It could easily be done with group by key. Simply call group by key, then find the average for each key by
+dividing the sum by the number of elements.
+\item A better way to do it is with aggregate by key. Let's walk through the code. The initial zero-value
+accumulator is just 0, 0; a sum of zero for zero total values. The first function iterates all the values for a
+given key, adding it to the sum and increasing the count of the accumulator for that key by one.
+\item Then the second function combines the accumulators for a given key from each partition. Finally, we call
+mapValues in the same way as before to calculate the average per key.
+This diagram shows what happens using groupByKey. groupByKey causes a shuffle of ALL values across
+the network, even if they are already co-located within a partition, then calculates the average per key.
+\end{itemize}
+In addition to the cost of network I/O you’re also using a lot more memory.
+In contrast, using aggregateByKey splits the calculation into two steps. Only one pair per key, per
+partition is shuffled, greatly reducing I/O and memory usage. Then the results from each partition are
+combined.
+\subsection*{Another Example}
+Another example would be to get the first value of a sequence for each key. Again here you may be
+tempted to just groupByKey then run a map/mapValues and for each group just grab the head element.
+The problem once again is the impact to memory this will have with large data sets. A better solution is
+to use reduceByKey. As each pair of values is passed you can compare them and choose which record to
+keep. This will run efficiently over all keys in each partition without incurring a large memory overhead.
+\subsection*{Asynchronous Actions}
+Actions are blocking operations. That is, while transformations are lazily executed, once you call an
+action such as count, collect, foreach, etc. your driver has to wait for it to finish. You can get around this
+with asynchronous operations. These are implemented as futures, so you can set a callback function to
+execute once they are completed. The basic actions provide corresponding async versions. You need to
+be aware that if you plan to executed multiple async operations that if you’re using the default FIFO job
+scheduler they will still complete serially. You’ll have to use the FAIR scheduler to compute the actions in
+parallel.
+\subsection*{Map vs MapValues}
+Understanding the effect of certain operations on partitioning plays a large role in optimizing
+transformations. For example, let’s say we have a Pair RDD that is already hash partitioned by 2
+partitions. If we run a map operation over all records we could potentially transform the keys of each
+record. Because of that, Spark has no way of knowing if the partitioned keys will match on the other side
+of the map operation. In this case the resulting RDD will actually no longer have a partitioner. This
+means even if we don’t alter the keys and they remain within the original partitions, when we run a
+reduceByKey a full shuffle is going to occur.
+If you just need to operate on the values of each key/pair, always use mapValues. This tells Spark that
+the hashed keys will remain in their partitions and we can keep the same partitioner across operations.
+The resulting reduceByKey will now be aware of the partitioning of the keys.
+\subsection*{Batching Output}
+When it comes time to output data from your Spark job you should use the standard save APIs
+whenever possible. However in some cases you may have custom logic or systems other than HDFS you
+need to integrate with.
+It’s important to understand the impact of using foreach vs foreachPartition. foreach will run your
+closure for each record individually. This is obviously not efficient when dealing with large volumes.
+foreachPartition is more appropriate. Your closure will run in parallel in each partition getting an Iterator
+for all records within that partition.
+If you need to save to a standard ODBC or JDBC database consider using the Hadoop DBOutputFormat
+along with the SparkContext saveAsHadoopDataset API. You’ll need to be careful with the level of
+parallelism and data volume so that you don’t overwhelm your database.
+For any custom output, such as sending to message queues or REST endpoints then definitely use
+foreachPartition. Remember to be aware of any serialization issues. It may be best to just initialize
+connections within the closure then send everything as one large message
+\subsection*{Broadcast Variables}
+\begin{itemize}
+\item Broadcast variables allow the driver program to send a read-only value to all executors to reference. The
+broadcast variable can then be looked up by any RDD operations. This can often be used to avoid
+shuffling.
+\item Spark uses a BitTorrent protocol which provides peer-to-peer sharing of the broadcast variables
+between nodes. This improves network throughput and reduces the load on the driver.
+\item You may be tempted to just pass your data as a local variable closure. The problem here is that you will
+have to serialize, then transmit the whole serialized closure to each node running that task. This would
+greatly delay startup and waste space through duplication in every node.
+\end{itemize}
+\subsection*{Broadcast Example}
+Here is an example using the trips and stations from the lab exercises. Normally, joining the start and
+end trips to stations would require three shuffles: one to repartition, and one for each join. By
+broadcasting the stations you can avoid shuffling entirely with some map operations. We’ll go over this
+in detail in the next lab.
+\subsection*{Lesson Summary}
+Having completed this lesson, you should be able to:
+\begin{itemize}
+\item Understand advanced RDD operations
+\item Identify what operations cause shuffling
+\item Understand how to avoid shuffling when possible
+\item Work with key/value pairs, grouping, combining, and reducing
+\end{itemize}
+Proceed to exercise 3 and the next lesson.
+
+\end{document}

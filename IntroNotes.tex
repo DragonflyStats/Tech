@@ -1,0 +1,36 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+%opening
+\title{Data Science}
+\author{Kevin O'Brien}
+
+\begin{document}
+
+	\begin{figure}[h!]
+\centering
+\includegraphics[width=0.3\linewidth]{ApacheSpark}
+
+\end{figure}
+	\section*{Apache Spark}
+	\begin{itemize}
+		
+		\item 
+Apache Spark is an open-source cluster computing framework originally developed in the AMPLab at UC Berkeley. 
+\item Spark fits into the Hadoop open-source community, building on top of the Hadoop Distributed File System (HDFS).However, Spark is not tied to the two-stage MapReduce paradigm, and promises performance up to 100 times faster than Hadoop MapReduce, for certain applications.
+
+\item Spark provides primitives for in-memory cluster computing that allows user programs to load data into a cluster's memory and query it repeatedly, making it well suited to machine learning algorithms.
+
+\item Higher level libraries for machine learning and graph processing that because of the distributed memory-based Spark architecture are ten times as fast as Hadoop disk-based Apache Mahout and even scale better than Vowpal Wabbit
+
+\item In contrast to Hadoop's two-stage disk-based MapReduce paradigm, Spark's in-memory primitives provide performance up to 100 times faster for certain applications.
+
+\item By allowing user programs to load data into a cluster's memory and query it repeatedly, Spark is well suited to machine learning algorithms.
+
+\item Spark requires a cluster manager and a distributed storage system. For cluster management, Spark supports standalone (native Spark cluster), Hadoop YARN, or Apache Mesos.
+
+\item For distributed storage, Spark can interface with a wide variety, including Hadoop Distributed File System (HDFS), Cassandra,OpenStack Swift, and Amazon S3.
+
+\item Spark also supports a pseudo-distributed local mode, usually used only for development or testing purposes, where distributed storage is not required and the local file system can be used instead; in this scenario, Spark is running on a single machine with one executor per CPU core.
+\end{itemize}
+\end{document}

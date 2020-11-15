@@ -1,0 +1,76 @@
+	\documentclass[a4paper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage{vmargin}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{subfigure}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.00.0.2570}
+%TCIDATA{<META NAME="SaveForMode"CONTENT="1">}
+%TCIDATA{LastRevised=Wednesday, February 23, 201113:24:34}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{Language=American English}
+
+\pagestyle{fancy}
+\setmarginsrb{20mm}{0mm}{20mm}{25mm}{12mm}{11mm}{0mm}{11mm}
+\lhead{Apache Spark} \rhead{Kevin O'Brien} \chead{The Spark Ecosystem} %\input{tcilatex}
+
+\begin{document}
+
+
+\section*{How to Use Apache Spark: Event Detection Use Case}
+%- https://www.toptal.com/spark/introduction-to-apache-spark
+
+Now that we have answered the question “What is Apache Spark?”, let’s think of what kind of problems or challenges it could be used for most effectively.
+
+I came across an article recently about an experiment to detect an earthquake by analyzing a Twitter stream. Interestingly, it was shown that this technique was likely to inform you of an earthquake in Japan quicker than the Japan Meteorological Agency. Even though they used different technology in their article, I think it is a great example to see how we could put Spark to use with simplified code snippets and without the glue code.
+
+First, we would have to filter tweets which seem relevant like “earthquake” or “shaking”. We could easily use Spark Streaming for that purpose as follows:
+\begin{verbatim}
+TwitterUtils.createStream(...)
+            .filter(_.getText.contains("earthquake") || _.getText.contains("shaking"))
+\end{verbatim}            
+Then, we would have to run some semantic analysis on the tweets to determine if they appear to be referencing a current earthquake occurrence. Tweets like ”Earthquake!” or ”Now it is shaking”, for example, would be consider positive matches, whereas tweets like “Attending an Earthquake Conference” or ”The earthquake yesterday was scary” would not. The authors of the paper used a support vector machine (SVM) for this purpose. We’ll do the same here, but can also try a streaming version. A resulting code example from MLlib would look like the following:
+\begin{verbatim}
+// We would prepare some earthquake tweet data and load it in LIBSVM format.
+val data = MLUtils.loadLibSVMFile(sc, "sample_earthquate_tweets.txt")
+
+// Split data into training (60%) and test (40%).
+val splits = data.randomSplit(Array(0.6, 0.4), seed = 11L)
+val training = splits(0).cache()
+val test = splits(1)
+
+// Run training algorithm to build the model
+val numIterations = 100
+val model = SVMWithSGD.train(training, numIterations)
+
+// Clear the default threshold.
+model.clearThreshold()
+
+// Compute raw scores on the test set. 
+val scoreAndLabels = test.map { point =>
+  val score = model.predict(point.features)
+  (score, point.label)
+}
+
+// Get evaluation metrics.
+val metrics = new BinaryClassificationMetrics(scoreAndLabels)
+val auROC = metrics.areaUnderROC()
+
+println("Area under ROC = " + auROC)
+\end{verbatim}
+If we are happy with the prediction rate of the model, we could move onto the next stage and react whenever we discover an earthquake. To detect one we need a certain number (i.e., density) of positive tweets in a defined time window (as described in the article). Note that, for tweets with Twitter location services enabled, we would also extract the location of the earthquake. Armed with this knowledge, we could use SparkSQL and query an existing Hive table (storing users interested in receiving earthquake notifications) to retrieve their email addresses and send them a personalized warning email, as follows:
+\begin{verbatim}
+// sc is an existing SparkContext.
+val sqlContext = new org.apache.spark.sql.hive.HiveContext(sc)
+// sendEmail is a custom function
+sqlContext.sql("FROM earthquake_warning_users SELECT firstName, lastName, city, email")
+          .collect().foreach(sendEmail)
+\end{verbatim}
+\end{document}

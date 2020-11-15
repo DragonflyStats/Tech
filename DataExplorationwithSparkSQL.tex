@@ -1,0 +1,76 @@
+	\documentclass[a4paper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage{vmargin}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{subfigure}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.00.0.2570}
+%TCIDATA{<META NAME="SaveForMode"CONTENT="1">}
+%TCIDATA{LastRevised=Wednesday, February 23, 201113:24:34}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{Language=American English}
+
+\pagestyle{fancy}
+\setmarginsrb{20mm}{0mm}{20mm}{25mm}{12mm}{11mm}{0mm}{11mm}
+\lhead{Apache Spark} \rhead{Kevin O'Brien} \chead{Spark SQL} %\input{tcilatex}
+
+\begin{document}
+\secton*{Spark SQL}
+Spark SQL is a Spark interface to work with structured as well as semi-structured data. It has the capability to load data from multiple structured sources like “text files”, JSON files, Parquet files, among others. Spark SQL provides a special type of RDD called SchemaRDD. These are row objects, where each object represents a record.
+
+
+
+Spark SQL is the newest component of Spark and provides a SQL like interface. Spark SQL is tightly integrated with the the various spark programming languages so we will start by launching the Spark shell from the root directory of the provided USB drive:
+
+Scala
+Python
+usb/$ spark/bin/pyspark
+Once you have launched the Spark shell, the next step is to create a SQLContext. A SQLConext wraps the SparkContext, which you used in the previous lesson, and adds functions for working with structured data.
+
+Scala
+Python
+from pyspark.sql import SQLContext
+sqlCtx = SQLContext(sc)
+Now we can load a set of data in that is stored in the Parquet format. Parquet is a self-describing columnar format. Since it is self-describing, Spark SQL will automatically be able to infer all of the column names and their datatypes. For this exercise we have provided a set of data that contains all of the pages on wikipedia that contain the word “berkeley”. You can load this data using the parquetFile method provided by the SQLContext.
+
+Scala
+Python
+>>> wikiData = sqlCtx.parquetFile("data/wiki_parquet")
+The result of loading in a parquet file is a SchemaRDD. A SchemaRDD has all of the functions of a normal RDD. For example, lets figure out how many records are in the data set.
+
+Scala
+Python
+>>> wikiData.count()
+39365L
+In addition to standard RDD operatrions, SchemaRDDs also have extra information about the names and types of the columns in the dataset. This extra schema information makes it possible to run SQL queries against the data after you have registered it as a table. Below is an example of counting the number of records using a SQL query.
+
+Scala
+Python
+>>> wikiData.registerAsTable("wikiData")
+>>> result = sqlCtx.sql("SELECT COUNT(*) AS pageCount FROM wikiData").collect()
+The result of SQL queries is always a collection of Row objects. From a row object you can access the individual columns of the result.
+
+Scala
+Python
+>>> result[0].pageCount
+39365
+SQL can be a powerfull tool from performing complex aggregations. For example, the following query returns the top 10 usersnames by the number of pages they created.
+
+Scala
+Python
+>>> sqlCtx.sql("SELECT username, COUNT(*) AS cnt FROM wikiData WHERE username <> '' GROUP BY username ORDER BY cnt DESC LIMIT 10").collect()
+[{u'username': u'Waacstats', u'cnt': 2003}, {u'username': u'Cydebot', u'cnt': 949}, {u'username': u'BattyBot', u'cnt': 939}, {u'username': u'Yobot', u'cnt': 890}, {u'username': u'Addbot', u'cnt': 853}, {u'username': u'Monkbot', u'cnt': 668}, {u'username': u'ChrisGualtieri', u'cnt': 438}, {u'username': u'RjwilmsiBot', u'cnt': 387}, {u'username': u'OccultZone', u'cnt': 377}, {u'username': u'ClueBot NG', u'cnt': 353}]
+NOTE: java.lang.OutOfMemoryError : If you see a java.lang.OutOfMemoryError, you will need to restart the Spark shell with the following command line option:
+
+Scala
+Python
+usb/$ spark/bin/pyspark --driver-memory 1G
+This increases the amount of memory allocated for the Spark driver. Since we are running Spark in local mode, all operations are performed by the driver, so the driver memory is all the memory Spark has to work with.
+\end{document}

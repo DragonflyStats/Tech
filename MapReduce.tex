@@ -1,0 +1,20 @@
+Data Sharing is Slow in MapReduce
+
+%- https://www.tutorialspoint.com/apache_spark/apache_spark_quick_guide.htm
+
+MapReduce is widely adopted for processing and generating large datasets with a parallel, distributed algorithm on a cluster. It allows users to write parallel computations, using a set of high-level operators, without having to worry about work distribution and fault tolerance.
+
+Unfortunately, in most current frameworks, the only way to reuse data between computations (Ex − between two MapReduce jobs) is to write it to an external stable storage system (Ex − HDFS). Although this framework provides numerous abstractions for accessing a cluster’s computational resources, users still want more.
+
+Both Iterative and Interactive applications require faster data sharing across parallel jobs. Data sharing is slow in MapReduce due to replication, serialization, and disk IO. Regarding storage system, most of the Hadoop applications, they spend more than 90% of the time doing HDFS read-write operations.
+
+Iterative Operations on MapReduce
+Reuse intermediate results across multiple computations in multi-stage applications. The following illustration explains how the current framework works, while doing the iterative operations on MapReduce. This incurs substantial overheads due to data replication, disk I/O, and serialization, which makes the system slow.
+
+Iterative Operations on MapReduce
+Interactive Operations on MapReduce
+User runs ad-hoc queries on the same subset of data. Each query will do the disk I/O on the stable storage, which can dominate application execution time.
+
+The following illustration explains how the current framework works while doing the interactive queries on MapReduce.
+
+Interactive Operations on MapReduce

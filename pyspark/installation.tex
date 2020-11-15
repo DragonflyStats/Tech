@@ -1,0 +1,121 @@
+Why use PySpark in a Jupyter Notebook?
+While using Spark, most data engineers recommends to develop either in Scala (which is the “native” Spark language) or in Python through complete PySpark API.
+
+Python for Spark is obviously slower than Scala. However like many developers, I love Python because it’s flexible, robust, easy to learn, and benefits from all my favorites libraries. In my opinion, Python is the perfect language for prototyping in Big Data/Machine Learning fields.
+
+If you prefer to develop in Scala, you will find many alternatives on the following github repository: alexarchambault/jupyter-scala
+
+To learn more about Python vs. Scala pro and cons for Spark context, please refer to this interesting article: Scala vs. Python for Apache Spark.
+
+Now, let’s get started.
+
+Install pySpark
+Before installing pySpark, you must have Python and Spark installed. I am using Python 3 in the following examples but you can easily adapt them to Python 2. Go to the Python official website to install it. I also encourage you to set up a virtualenv.
+
+To install Spark, make sure you have Java 8 or higher installed on your computer. Then, visit the Spark downloads page. Select the latest Spark release, a prebuilt package for Hadoop, and download it directly.
+
+Unzip it and move it to your /opt folder:
+
+$ tar -xzf spark-1.2.0-bin-hadoop2.4.tgz
+$ mv spark-1.2.0-bin-hadoop2.4 /opt/spark-1.2.0
+Create a symbolic link:
+
+$ ln -s /opt/spark-1.2.0 /opt/spark̀
+This way, you will be able to download and use multiple Spark versions.
+
+Finally, tell your bash (or zsh, etc.) where to find Spark. To do so, configure your $PATH variables by adding the following lines in your ~/.bashrc (or ~/.zshrc) file:
+
+export SPARK_HOME=/opt/spark
+export PATH=$SPARK_HOME/bin:$PATH
+Install Jupyter Notebook
+Install Jupyter notebook:
+
+$ pip install jupyter
+You can run a regular jupyter notebook by typing:
+
+$ jupyter notebook
+Your first Python program on Spark
+Let’s check if PySpark is properly installed without using Jupyter Notebook first.
+
+You may need to restart your terminal to be able to run PySpark. Run:
+
+$ pyspark
+Welcome to
+      ____              __
+     / __/__  ___ _____/ /__
+    _\ \/ _ \/ _ `/ __/  '_/
+   /__ / .__/\_,_/_/ /_/\_\   version 2.1.0
+      /_/
+Using Python version 3.5.2 (default, Jul  2 2016 17:53:06)
+SparkSession available as 'spark'.
+>>>
+It seems to be a good start! Run the following program: 
+(I bet you understand what it does!)
+
+import random
+num_samples = 100000000
+def inside(p):     
+  x, y = random.random(), random.random()
+  return x*x + y*y < 1
+count = sc.parallelize(range(0, num_samples)).filter(inside).count()
+pi = 4 * count / num_samples
+print(pi)
+sc.stop()
+The output will probably be around 3.14.
+
+PySpark in Jupyter
+There are two ways to get PySpark available in a Jupyter Notebook:
+
+Configure PySpark driver to use Jupyter Notebook: running pyspark will automatically open a Jupyter Notebook
+Load a regular Jupyter Notebook and load PySpark using findSpark package
+First option is quicker but specific to Jupyter Notebook, second option is a broader approach to get PySpark available in your favorite IDE.
+
+Method 1 — Configure PySpark driver
+Update PySpark driver environment variables: add these lines to your ~/.bashrc (or ~/.zshrc) file.
+
+export PYSPARK_DRIVER_PYTHON=jupyter
+export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
+Restart your terminal and launch PySpark again:
+
+$ pyspark
+Now, this command should start a Jupyter Notebook in your web browser. Create a new notebook by clicking on ‘New’ > ‘Notebooks Python [default]’.
+
+Copy and paste our Pi calculation script and run it by pressing Shift + Enter.
+
+
+Jupyter Notebook: Pi Calculation script
+Done! 
+You are now able to run PySpark in a Jupyter Notebook :)
+
+\subsection*{Method 2 — FindSpark package}
+There is another and more generalized way to use PySpark in a Jupyter Notebook: use findSpark package to make a Spark Context available in your code.
+
+findSpark package is not specific to Jupyter Notebook, you can use this trick in your favorite IDE too.
+
+To install findspark:
+\begin{verbatim}
+$ pip install findspark
+\end{verbatim}
+Launch a regular Jupyter Notebook:
+
+$ jupyter notebook
+Create a new Python [default] notebook and write the following script:
+
+import findspark
+findspark.init()
+import pyspark
+import random
+sc = pyspark.SparkContext(appName="Pi")
+num_samples = 100000000
+def inside(p):     
+  x, y = random.random(), random.random()
+  return x*x + y*y < 1
+count = sc.parallelize(range(0, num_samples)).filter(inside).count()
+pi = 4 * count / num_samples
+print(pi)
+sc.stop()
+The output should be:
+
+
+Jupyter Notebook: Pi calculation
+\end{document}
